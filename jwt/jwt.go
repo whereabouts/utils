@@ -94,6 +94,7 @@ func (jwt *JWT) SetExpire(expire time.Duration) *JWT {
 
 func (jwt *JWT) SetDuration(duration time.Duration) *JWT {
 	jwt.Payload.Duration = duration
+	jwt.SetExpire(duration)
 	return jwt
 }
 

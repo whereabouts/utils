@@ -15,7 +15,7 @@ const (
 
 type Header struct {
 	Algorithm string `json:"algorithm"`
-	Type      string `json:"JWT"`
+	Type      string `json:"type"`
 }
 
 type Payload struct {

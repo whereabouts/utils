@@ -39,7 +39,7 @@ func IsExpire(token string) bool {
 
 func Refresh(token string) string {
 	p := GetPayload(token)
-	p.Expire = time.Unix(p.Expire, 0).Add(p.Duration).Unix()
+	p.Expire = time.Now().Add(p.Duration).Unix()
 	header := encodeStruct2Base64URL(defaultHeader())
 	payload := encodeStruct2Base64URL(p)
 	sign := encryptionSHA256(fmt.Sprintf("%s.%s", header, payload), getSignature())

@@ -7,10 +7,10 @@ const (
 	defaultHeaderType        = "JWT"
 	defaultPayloadIssuer     = "whereabouts.icu"
 	defaultPayloadOwner      = ""
-	defaultPayloadPurpose    = "authentication"
-	defaultPayloadRecipient  = "browser"
+	defaultPayloadPurpose    = "Authentication"
+	defaultPayloadRecipient  = "Browser"
 	defaultPayloadExpireTime = time.Minute * 30
-	defaultSignature         = "hezebin"
+	defaultSignature         = "HeZebin"
 )
 
 type Header struct {
@@ -19,13 +19,22 @@ type Header struct {
 }
 
 type Payload struct {
-	Issuer    string                 `json:"issuer"`
-	Owner     string                 `json:"owner"`
-	Purpose   string                 `json:"purpose"`
-	Recipient string                 `json:"recipient"`
-	Time      int64                  `json:"time"`
-	Expire    int64                  `json:"expire"`
-	External  map[string]interface{} `json:"external"`
+	// 签发者
+	Issuer string `json:"issuer"`
+	// 令牌所有者,存放ID等标识
+	Owner string `json:"owner"`
+	// 用途,默认值authentication表示用于登录认证
+	Purpose string `json:"purpose"`
+	// 接受方,表示申请该令牌的设备来源,如浏览器、Android等
+	Recipient string `json:"recipient"`
+	// 令牌签发时间
+	Time int64 `json:"time"`
+	// 过期时间
+	Expire int64 `json:"expire"`
+	// 令牌持续时间,即生命周期
+	Duration time.Duration `json:"duration"`
+	// 其他扩展的自定义参数
+	External map[string]interface{} `json:"external"`
 }
 
 func defaultHeader() *Header {
@@ -41,6 +50,7 @@ func defaultPayload() *Payload {
 		Recipient: defaultPayloadRecipient,
 		Time:      currentTime.Unix(),
 		Expire:    currentTime.Add(defaultPayloadExpireTime).Unix(),
+		Duration:  defaultPayloadExpireTime,
 		External:  nil,
 	}
 }

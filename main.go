@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/base64"
 	"fmt"
 	"github.com/whereabouts/utils/jwt"
 	"github.com/whereabouts/utils/slice"
@@ -27,12 +26,13 @@ func main() {
 	fmt.Println("stus delete one Stu{a 1}:", stus)
 	// example of jwt
 	fmt.Println("#######################################################")
-	token := jwt.Generator().SetOwner("korbin").GetToken()
+	token := jwt.NewToken().SetOwner("korbin").String()
 	fmt.Println(token)
 	fmt.Println(jwt.Check(token))
 	fmt.Println(jwt.Check(token + "1"))
-	fmt.Println(jwt.Check(token + "."))
-	decodeString, _ := base64.URLEncoding.DecodeString("eyJpc3N1ZXIiOiJ3aGVyZWFib3V0cy5pY3UiLCJvd25lciI6ImtvcmJpbiIsInB1cnBvc2UiOiJhdXRoZW50aWNhdGlvbiIsInJlY2lwaWVudCI6ImJyb3dzZXIiLCJ0aW1lIjoxNjE0MDA0ODA4LCJleHBpcmUiOjE2MTQwMDY2MDgsImV4dGVybmFsIjpudWxsfQ==")
-	fmt.Println(string(decodeString))
+	fmt.Println(jwt.IsExpire(token))
+	fmt.Printf("%+v\n", jwt.GetPayload(token))
+	token = jwt.Refresh(token)
+	fmt.Println(token)
 	fmt.Printf("%+v\n", jwt.GetPayload(token))
 }

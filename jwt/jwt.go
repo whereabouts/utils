@@ -12,7 +12,7 @@ type JWT struct {
 	Signature string   `json:"signature"`
 }
 
-func Generator() *JWT {
+func NewToken() *JWT {
 	return &JWT{
 		Header:    defaultHeader(),
 		Payload:   defaultPayload(),
@@ -29,6 +29,23 @@ func Check(token string) bool {
 	return sections[2] == sign
 }
 
+func IsExpire(token string) bool {
+	payload := GetPayload(token)
+	if time.Now().Unix() > payload.Expire {
+		return true
+	}
+	return false
+}
+
+func Refresh(token string) string {
+	p := GetPayload(token)
+	p.Expire = time.Unix(p.Expire, 0).Add(p.Duration).Unix()
+	header := encodeStruct2Base64URL(defaultHeader())
+	payload := encodeStruct2Base64URL(p)
+	sign := encryptionSHA256(fmt.Sprintf("%s.%s", header, payload), getSignature())
+	return fmt.Sprintf("%s.%s.%s", header, payload, sign)
+}
+
 func GetPayload(token string) Payload {
 	payload := Payload{}
 	sections := strings.Split(token, ".")
@@ -39,7 +56,7 @@ func GetPayload(token string) Payload {
 	return payload
 }
 
-func (jwt *JWT) GetToken() string {
+func (jwt *JWT) String() string {
 	header := encodeStruct2Base64URL(jwt.Header)
 	payload := encodeStruct2Base64URL(jwt.Payload)
 	sign := encryptionSHA256(fmt.Sprintf("%s.%s", header, payload), jwt.Signature)
@@ -70,8 +87,13 @@ func (jwt *JWT) SetRecipient(recipient string) *JWT {
 	return jwt
 }
 
-func (jwt *JWT) SetExpireTime(expire time.Duration) *JWT {
+func (jwt *JWT) SetExpire(expire time.Duration) *JWT {
 	jwt.Payload.Expire = time.Unix(jwt.Payload.Time, 0).Add(expire).Unix()
+	return jwt
+}
+
+func (jwt *JWT) SetDuration(duration time.Duration) *JWT {
+	jwt.Payload.Duration = duration
 	return jwt
 }
 

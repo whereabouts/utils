@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/whereabouts/utils/jwt"
+	"github.com/whereabouts/utils/mapper"
 	"github.com/whereabouts/utils/slice"
 	"github.com/whereabouts/utils/timer"
 	"time"
@@ -48,4 +49,15 @@ func main() {
 	}
 	fmt.Println(t.Unix() == 1639282332)
 	fmt.Println(timer.Format(timer.Unix2Time(1639282332)))
+	// example of map
+	fmt.Println("#######################################################")
+	fmt.Println(mapper.Json2Map(`{"name": "korbin", "age": 22}`))
+	fmt.Println(mapper.Map2Json(map[string]string{"name": "korbin", "age": "22"}))
+	stu := Stu{}
+	err = mapper.Map2Struct(map[string]interface{}{"name": "korbin", "age": 22}, &stu)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(stu)
+	fmt.Println(mapper.Struct2Map(stu))
 }

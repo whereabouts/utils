@@ -60,4 +60,8 @@ func main() {
 	}
 	fmt.Println(stu)
 	fmt.Println(mapper.Struct2Map(stu))
+	fmt.Println(timer.IsUnixTime(1614359148))
+	fmt.Println(timer.IsUnixTime("1614359148"))
+	fmt.Println(timer.IsStrTime("2021-02-27 02:35:17"))
+	fmt.Println(timer.IsTime(now))
 }

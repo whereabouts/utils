@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/globalsign/mgo/bson"
+	"github.com/whereabouts/utils/timer"
 	"reflect"
 )
 
@@ -54,4 +56,20 @@ func Struct2Map(v interface{}) (map[string]interface{}, error) {
 		m[t.Field(i).Name] = value.Field(i).Interface()
 	}
 	return m, nil
+}
+
+func IsKeyValid(m bson.M, key string) bool {
+	_, ok := m[key]
+	return ok
+}
+
+func IsKeyTimeValid(m bson.M, key string) bool {
+	value, ok := m[key]
+	if !ok {
+		return false
+	}
+	if !timer.IsStrTime(value) && !timer.IsTime(value) && !timer.IsUnixTime(value) {
+		return false
+	}
+	return true
 }

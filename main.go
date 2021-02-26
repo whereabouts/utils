@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/whereabouts/utils/jwt"
 	"github.com/whereabouts/utils/slice"
+	"github.com/whereabouts/utils/timer"
+	"time"
 )
 
 type Stu struct {
@@ -35,4 +37,15 @@ func main() {
 	token = jwt.Refresh(token)
 	fmt.Println(token)
 	fmt.Printf("%+v\n", jwt.GetPayload(token))
+	// example of time
+	fmt.Println("#######################################################")
+	now := time.Now()
+	fmt.Println(timer.Format(now))
+	fmt.Println(timer.Format2Milli(now))
+	t, err := timer.Parse("2021-12-12 12:12:12")
+	if err != nil {
+		return
+	}
+	fmt.Println(t.Unix() == 1639282332)
+	fmt.Println(timer.Format(timer.Unix2Time(1639282332)))
 }

@@ -10,8 +10,8 @@ import (
 )
 
 type Stu struct {
-	Name string
-	Age  int
+	Name string `json:"name" bson:"_name"`
+	Age  int    `json:"age" bson:"_age"`
 }
 
 func main() {

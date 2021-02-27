@@ -53,7 +53,14 @@ func Struct2Map(v interface{}) (map[string]interface{}, error) {
 	t := reflect.TypeOf(value.Interface())
 	var m = make(map[string]interface{})
 	for i := 0; i < value.NumField(); i++ {
-		m[t.Field(i).Name] = value.Field(i).Interface()
+		key := t.Field(i).Tag.Get("bson")
+		if key == "" {
+			key = t.Field(i).Tag.Get("json")
+			if key == "" {
+				key = t.Field(i).Name
+			}
+		}
+		m[key] = value.Field(i).Interface()
 	}
 	return m, nil
 }

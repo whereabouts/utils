@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/whereabouts/utils/code"
 	"github.com/whereabouts/utils/jwt"
 	"github.com/whereabouts/utils/mapper"
 	"github.com/whereabouts/utils/slice"
@@ -64,4 +65,20 @@ func main() {
 	fmt.Println(timer.IsUnixTime("1614359148"))
 	fmt.Println(timer.IsStrTime("2021-02-27 02:35:17"))
 	fmt.Println(timer.IsTime(now))
+	// example of code
+	fmt.Println("#######################################################")
+	fmt.Println(code.String())
+	fmt.Println(code.StrBlend(4))
+	fmt.Println(code.VerifyStr("rfbd67", "RFbD67"))
+	fmt.Println(code.VerifyStr("rfbd67", "RFbD67", true))
+	fmt.Println(code.VerifyStr("RFbD67", "RFbD67", true))
+	fmt.Println(code.ZN_CN())
+	fmt.Println(code.NewZN_CN(4))
+	fmt.Println(code.VerifyZN_CN("生却块正步成", "生却块正步成"))
+	fmt.Println(code.VerifyZN_CN("生却块正步啊", "生却块正步成"))
+	fmt.Println(code.Custom("123abcDEF却块正步"))
+	fmt.Println(code.NewCustom(4, "123abcDEF却块正步"))
+	fmt.Println(code.VerifyCustom("块d步a1d", "块d步A1D"))
+	fmt.Println(code.VerifyCustom("块d步a1d", "块d步A1D", true))
+	fmt.Println(code.VerifyCustom("块d步A1D", "块d步A1D", true))
 }

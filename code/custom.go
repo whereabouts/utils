@@ -3,7 +3,6 @@ package code
 import (
 	"fmt"
 	"math/rand"
-	"strings"
 )
 
 func Custom(template string) string {
@@ -21,12 +20,4 @@ func NewCustom(length int, template string) (code string) {
 		}
 	}
 	return code
-}
-
-func VerifyCustom(in string, code string, capslock ...bool) bool {
-	if len(capslock) == 0 || !capslock[0] {
-		return strings.ToUpper(in) == strings.ToUpper(code)
-	} else {
-		return in == code
-	}
 }

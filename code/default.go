@@ -6,31 +6,31 @@ import (
 	"strings"
 )
 
-func String() string {
-	return StrGenerate(DefaultLen, TypeBlend)
+func Default() string {
+	return Generate(DefaultLen, TypeBlend)
 }
 
-func NewStr(length int, codeType int) string {
-	return StrGenerate(length, codeType)
+func String(length int, codeType int) string {
+	return Generate(length, codeType)
 }
 
-func StrBlend(length int) string {
-	return StrGenerate(length, TypeBlend)
+func Blend(length int) string {
+	return Generate(length, TypeBlend)
 }
 
-func StrDigit(length int) string {
-	return StrGenerate(length, TypeDigit)
+func Digit(length int) string {
+	return Generate(length, TypeDigit)
 }
 
-func StrLetterLower(length int) string {
-	return StrGenerate(length, TypeLetterLower)
+func LetterLower(length int) string {
+	return Generate(length, TypeLetterLower)
 }
 
-func StrLetterUpper(length int) string {
-	return StrGenerate(length, TypeLetterUpper)
+func LetterUpper(length int) string {
+	return Generate(length, TypeLetterUpper)
 }
 
-func StrGenerate(length int, codeType int) (code string) {
+func Generate(length int, codeType int) (code string) {
 	for i := 0; i < length; i++ {
 		switch codeType {
 		case TypeBlend:
@@ -48,7 +48,7 @@ func StrGenerate(length int, codeType int) (code string) {
 	return code
 }
 
-func VerifyStr(in string, code string, capslock ...bool) bool {
+func Verify(in string, code string, capslock ...bool) bool {
 	if len(capslock) == 0 || !capslock[0] {
 		return strings.ToUpper(in) == strings.ToUpper(code)
 	} else {

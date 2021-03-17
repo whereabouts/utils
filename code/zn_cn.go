@@ -2,7 +2,6 @@ package code
 
 import (
 	"fmt"
-	"math/rand"
 )
 
 func PrintCNChar() {
@@ -12,22 +11,9 @@ func PrintCNChar() {
 }
 
 func ZN_CN() string {
-	return NewZN_CN(DefaultLen)
+	return NewCustom(DefaultLen, zn_cn)
 }
 
 func NewZN_CN(length int) (code string) {
-	for i := 0; i < length; i++ {
-		index := rand.Intn(len(zn_cn) / 3)
-		for j, v := range zn_cn {
-			if j == index*3 {
-				code = fmt.Sprintf("%s%c", code, v)
-				break
-			}
-		}
-	}
-	return code
-}
-
-func VerifyZN_CN(in string, code string) bool {
-	return in == code
+	return NewCustom(length, zn_cn)
 }

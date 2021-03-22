@@ -49,7 +49,7 @@ func Auth(username, password, host, port string) *Mail {
 	}
 }
 
-func (mail *Mail) SetForm(from string) *Mail {
+func (mail *Mail) SetFrom(from string) *Mail {
 	mail.message.From = from
 	return mail
 }

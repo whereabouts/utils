@@ -3,6 +3,7 @@ package qiniu
 import (
 	"context"
 	"github.com/qiniu/go-sdk/v7/auth/qbox"
+	"github.com/qiniu/go-sdk/v7/sms/bytes"
 	"github.com/qiniu/go-sdk/v7/storage"
 	"io"
 	"io/ioutil"
@@ -49,7 +50,7 @@ func (cloud *Client) Upload(file io.Reader, fileName string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	err = cloud.Uploader.Put(context.Background(), &ret, cloud.Token, fileName, file, int64(len(data)), nil)
+	err = cloud.Uploader.Put(context.Background(), &ret, cloud.Token, fileName, bytes.NewReader(data), int64(len(data)), nil)
 	if err != nil {
 		return "", err
 	}

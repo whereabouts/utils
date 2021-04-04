@@ -2,7 +2,7 @@ package ucloud
 
 import (
 	ufsdk "github.com/ufilesdk-dev/ufile-gosdk"
-	"os"
+	"io"
 )
 
 type Config struct {
@@ -25,15 +25,10 @@ type Client struct {
 }
 
 // 如果存在同名且相同的文件,则直接返回url
-func (cloud *Client) Upload(file *os.File, fileName string) (string, error) {
+func (cloud *Client) Upload(file io.Reader, fileName string) (string, error) {
 	req, err := ufsdk.NewFileRequest(cloud.Config, nil)
 	if err != nil {
 		return "", err
-	}
-	etag := req.CompareFileEtag(fileName, file.Name())
-	if etag {
-		err = req.HeadFile(fileName)
-		return req.GetPublicURL(fileName), err
 	}
 	err = req.IOPut(file, fileName, "")
 	if err != nil {

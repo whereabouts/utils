@@ -6,11 +6,11 @@ import (
 	ufsdk "github.com/ufilesdk-dev/ufile-gosdk"
 	"github.com/whereabouts/utils/oss/qiniu"
 	"github.com/whereabouts/utils/oss/ucloud"
-	"os"
+	"io"
 )
 
 type Client interface {
-	Upload(file *os.File, fileName string) (string, error)
+	Upload(file io.Reader, fileName string) (string, error)
 	Download(url string) error
 	Delete(fileName string) error
 }

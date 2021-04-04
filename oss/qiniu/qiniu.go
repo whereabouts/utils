@@ -4,7 +4,8 @@ import (
 	"context"
 	"github.com/qiniu/go-sdk/v7/auth/qbox"
 	"github.com/qiniu/go-sdk/v7/storage"
-	"os"
+	"io"
+	"io/ioutil"
 )
 
 var (
@@ -34,13 +35,13 @@ type Client struct {
 }
 
 // 如果存在同名且相同的文件,则直接返回url
-func (cloud *Client) Upload(file *os.File, fileName string) (string, error) {
+func (cloud *Client) Upload(file io.Reader, fileName string) (string, error) {
 	ret := storage.PutRet{}
-	stat, err := file.Stat()
+	data, err := ioutil.ReadAll(file)
 	if err != nil {
 		return "", err
 	}
-	err = cloud.Uploader.Put(context.Background(), &ret, cloud.Token, fileName, file, stat.Size(), nil)
+	err = cloud.Uploader.Put(context.Background(), &ret, cloud.Token, fileName, file, int64(len(data)), nil)
 	if err != nil {
 		return "", err
 	}

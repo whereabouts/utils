@@ -34,7 +34,7 @@ func QiNiu(config *qiniu.Config) Client {
 	}
 	cfg := storage.Config{}
 	// 空间对应的机房
-	cfg.Zone = &config.Zone
+	cfg.Zone = qiniu.ZoneMap[config.Zone]
 	// 是否使用https域名
 	cfg.UseHTTPS = config.UseHTTPS
 	// 上传是否使用CDN上传加速

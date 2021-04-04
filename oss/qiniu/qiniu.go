@@ -9,9 +9,17 @@ import (
 )
 
 var (
-	ZoneHuanan  = storage.ZoneHuanan
-	ZoneHuadong = storage.ZoneHuadong
-	ZoneHuabei  = storage.ZoneHuabei
+	ZoneMap = map[string]*storage.Region{
+		"huanan":  &storage.ZoneHuanan,
+		"huadong": &storage.ZoneHuadong,
+		"huabei":  &storage.ZoneHuabei,
+	}
+)
+
+const (
+	ZoneHuanan  = "huanan"
+	ZoneHuadong = "huadong"
+	ZoneHuabei  = "huabei"
 )
 
 type Config struct {
@@ -19,7 +27,7 @@ type Config struct {
 	SecretKey string `json:"secret_key"`
 	Bucket    string `json:"bucket"`
 	// 空间对应机房
-	Zone storage.Region `json:"zone"`
+	Zone string `json:"zone"`
 	// 是否使用https域名
 	UseHTTPS bool `json:"use_https"`
 	// 上传是否使用CDN上传加速
@@ -60,7 +68,7 @@ func (cloud *Client) Delete(fileName string) error {
 	}
 	// 指定空间所在的区域，如果不指定将自动探测
 	// 如果没有特殊需求，默认不需要指定
-	cfg.Zone = &cloud.Config.Zone
+	cfg.Zone = ZoneMap[cloud.Config.Zone]
 	bucketManager := storage.NewBucketManager(mac, &cfg)
 	err := bucketManager.Delete(cloud.Config.Bucket, fileName)
 	if err != nil {

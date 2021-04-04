@@ -34,7 +34,7 @@ type Config struct {
 	// 上传是否使用CDN上传加速
 	UseCdnDomains bool `json:"use_cdn_domains"`
 	// 域名地址,包含http://,通过查看外链可以看到,如:http://image-c4lms-qiniu.whereabouts.icu
-	Domain string `json:"host"`
+	Domain string `json:"domain"`
 }
 
 type Client struct {

@@ -80,3 +80,23 @@ func IsKeyTimeValid(m bson.M, key string) bool {
 	}
 	return true
 }
+
+func BsonM2Map(m bson.M) map[string]interface{} {
+	return m
+}
+
+func Map2BsonM(m map[string]interface{}) bson.M {
+	return m
+}
+
+func Struct2BsonM(v interface{}) (bson.M, error) {
+	m, err := Struct2Map(v)
+	if err != nil {
+		return nil, err
+	}
+	return Map2BsonM(m), nil
+}
+
+func BsonM2Struct(m bson.M, v interface{}) error {
+	return Map2Struct(BsonM2Map(m), v)
+}
